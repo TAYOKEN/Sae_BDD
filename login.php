@@ -1,45 +1,60 @@
 <?php
 session_start();
-$host = 'localhost';
-$dbname = 'sae';
-$user = 'postgres';  
-$password = '2606';
+require_once 'connexion.php'; // Appelle uniquement la fonction getDBConnection()
 
-// Si déjà connecté, on redirige vers le tableau de bord
+// Activation de l'affichage des erreurs pour le développement uniquement
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Si déjà connecté, redirige vers le tableau de bord
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     header('Location: dashboard.php');
     exit;
 }
 
+// Initialisation de la variable d'erreur
+$error = null;
+
 // Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
-   
+
+    // Journalisation pour débogage
+    error_log("Tentative de connexion pour l'utilisateur: $nom");
+
     try {
-        $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-       
-        $stmt = $pdo->prepare("SELECT id, nom, email, mot_de_passe, role FROM utilisateurs WHERE nom = :nom");
+        $pdo = getDBConnection(); // Utilisation de ta fonction pour obtenir une connexion
+
+        // Vérifier si l'utilisateur existe
+        $stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE nom = :nom");
         $stmt->bindParam(':nom', $nom);
         $stmt->execute();
-       
+        
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-       
-        if ($user && $user['mot_de_passe'] === $password) { // Idéalement, utilisez password_verify() avec des mots de passe hachés
-            $_SESSION['logged_in'] = true;
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_name'] = $user['nom'];
-            $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_role'] = $user['role'];
-           
-            header('Location: dashboard.php');
-            exit;
+
+        // Vérification sécurisée
+        if ($user && is_array($user)) {
+            // A améliorer plus tard avec password_hash / password_verify
+            if ($user['mot_de_passe'] === $password) {
+                $_SESSION['logged_in'] = true;
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_name'] = $user['nom'];
+                $_SESSION['user_email'] = $user['email'] ?? '';
+                $_SESSION['user_role'] = $user['role'] ?? 'user';
+
+                header('Location: dashboard.php');
+                exit;
+            } else {
+                $error = "Identifiants incorrects";
+            }
         } else {
-            $error = "Nom d'utilisateur ou mot de passe incorrect";
+            $error = "Identifiants incorrects";
         }
     } catch (PDOException $e) {
-        $error = "Erreur de connexion à la base de données: " . $e->getMessage();
+        $error = "Une erreur est survenue lors de la connexion";
+        error_log("Erreur PDO : " . $e->getMessage());
     }
 }
 ?>
@@ -50,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
     <style>
+        /* Ton style CSS reste identique */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -109,8 +125,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-container">
         <h2>Connexion</h2>
-        <?php if (isset($error)): ?>
-            <div class="error"><?php echo $error; ?></div>
+        <?php if ($error): ?>
+            <div class="error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
         <form method="post" action="">
             <div class="form-group">
