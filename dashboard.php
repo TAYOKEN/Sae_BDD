@@ -3,7 +3,7 @@ session_start();
 $host = 'localhost';
 $dbname = 'sae';
 $user = 'postgres';
-$password = '2606';
+$password = 'root';
 
 // Vérification de la connexion de l'utilisateur
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {

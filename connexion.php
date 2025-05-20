@@ -3,7 +3,7 @@ function getDBConnection() {
     $host = 'localhost';
     $dbname = 'sae';
     $user = 'postgres';
-    $password = '2606';
+    $password = 'root';
 
     try {
         $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password, [
@@ -15,3 +15,4 @@ function getDBConnection() {
     }
 }
 ?>
+    

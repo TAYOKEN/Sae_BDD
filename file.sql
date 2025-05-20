@@ -398,6 +398,7 @@ ALTER TABLE ONLY public.soigner
 ALTER TABLE ONLY public.soigner
     ADD CONSTRAINT fk_soigner_manipulation FOREIGN KEY (codemanipulation) REFERENCES public.manipulation(codemanipulation);
 
+ALTER TABLE utilisateurs ALTER COLUMN id SET DEFAULT nextval('utilisateurs_id_seq');
 
 --
 -- PostgreSQL database dump complete
