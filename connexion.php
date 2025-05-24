@@ -1,9 +1,9 @@
 <?php
 function getDBConnection() {
     $host = 'localhost';
-    $dbname = 'sae';
+    $dbname = 'saebdd';
     $user = 'postgres';
-    $password = 'root';
+    $password = '2606';
 
     try {
         $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password, [

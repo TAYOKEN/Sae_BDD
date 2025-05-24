@@ -103,6 +103,26 @@ CREATE TABLE public.manipulation (
 ALTER TABLE public.manipulation OWNER TO postgres;
 
 --
+-- Name: proprietaire; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.proprietaire (
+    idproprietaire character varying(50) NOT NULL,
+    nomp character varying(25) NOT NULL,
+    prenomp character varying(50) NOT NULL,
+    adressep character varying(50),
+    telp character varying(15),
+    iban character varying(34),
+    site_web character varying(50),
+    type character varying(50) NOT NULL,
+    user_id integer,
+    CONSTRAINT ck_type_proprietaire CHECK (((type)::text = ANY (ARRAY[('Particulier'::character varying)::text, ('Professionnel'::character varying)::text])))
+);
+
+
+ALTER TABLE public.proprietaire OWNER TO postgres;
+
+--
 -- Name: propriÃ©taire; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -232,6 +252,15 @@ M003	Manipulation thoracique	30	30.00
 
 
 --
+-- Data for Name: proprietaire; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.proprietaire (idproprietaire, nomp, prenomp, adressep, telp, iban, site_web, type, user_id) FROM stdin;
+P574	Boukayouh	Yanis	1 Rue Henri Vercken	0766362667	\N	\N	Particulier	\N
+\.
+
+
+--
 -- Data for Name: propriÃ©taire; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -261,6 +290,7 @@ COPY public.utilisateurs (id, nom, email, mot_de_passe, role) FROM stdin;
 2	Jean Durjardin	JeanDJ@gmail.com	1234	client
 3	Jean	Jeanjean	1234	client
 4	Dupont	jedihd@fdidf.fr	124	client
+5	Boukayouh Yanis	deughfei@euhgfuyic.com	$2y$10$Y095bpKtp9GOmFAQJeUileHoWyajxSTeGPvqTL7aPk7WpF8n16g32	client
 \.
 
 
@@ -268,7 +298,7 @@ COPY public.utilisateurs (id, nom, email, mot_de_passe, role) FROM stdin;
 -- Name: utilisateurs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.utilisateurs_id_seq', 1, false);
+SELECT pg_catalog.setval('public.utilisateurs_id_seq', 5, true);
 
 
 --
@@ -309,6 +339,14 @@ ALTER TABLE ONLY public.historique
 
 ALTER TABLE ONLY public.manipulation
     ADD CONSTRAINT manipulation_pkey PRIMARY KEY (codemanipulation);
+
+
+--
+-- Name: proprietaire proprietaire_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.proprietaire
+    ADD CONSTRAINT proprietaire_pkey PRIMARY KEY (idproprietaire);
 
 
 --
@@ -384,6 +422,14 @@ ALTER TABLE ONLY public.historique
 
 
 --
+-- Name: proprietaire fk_proprietaire_utilisateur; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.proprietaire
+    ADD CONSTRAINT fk_proprietaire_utilisateur FOREIGN KEY (user_id) REFERENCES public.utilisateurs(id);
+
+
+--
 -- Name: soigner fk_soigner_consultation; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -398,7 +444,6 @@ ALTER TABLE ONLY public.soigner
 ALTER TABLE ONLY public.soigner
     ADD CONSTRAINT fk_soigner_manipulation FOREIGN KEY (codemanipulation) REFERENCES public.manipulation(codemanipulation);
 
-ALTER TABLE utilisateurs ALTER COLUMN id SET DEFAULT nextval('utilisateurs_id_seq');
 
 --
 -- PostgreSQL database dump complete

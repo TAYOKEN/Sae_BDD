@@ -1,9 +1,9 @@
 <?php
 session_start();
 $host = 'localhost';
-$dbname = 'sae';
+$dbname = 'saebdd';
 $user = 'postgres';
-$password = 'root';
+$password = '2606';
 
 // Vérification de la connexion de l'utilisateur
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {

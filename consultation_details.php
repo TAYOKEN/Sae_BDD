@@ -1,9 +1,10 @@
 <?php
-session_start();
+session_start(); // TODO: Changer toutes les connection a la bdd par require_once 'connexion.php';
+
 $host = 'localhost';
-$dbname = 'sae';
+$dbname = 'saebdd';
 $user = 'postgres';
-$password = 'root';
+$password = '2606';
 
 // Vérification de la connexion de l'utilisateur
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
@@ -57,7 +58,7 @@ try {
             con.lieuc as lieu_consultation
         FROM public.consulter con
         JOIN public.animal a ON con.idanimal = a.idanimal
-        JOIN public.\"propriÃ©taire\" p ON a.\"idpropriÃ©taire\" = p.\"idpropriÃ©taire\"
+        JOIN public.\"proprietaire\" p ON a.\"idproprietaire\" = p.\"idproprietaire\"
         WHERE con.idconsultation = :idconsultation
     ");
     $stmt->bindParam(':idconsultation', $idconsultation);
@@ -202,7 +203,7 @@ try {
                 <div><?= htmlspecialchars($consultation['heurec']) ?></div>
                 
                 <div class="info-label">Durée:</div>
-                <div><?= htmlspecialchars($consultation['durÃ©ec'] ?? 'Non spécifiée') ?> minutes</div>
+                <div><?= htmlspecialchars($consultation['dureec'] ?? 'Non spécifiée') ?> minutes</div>
                 
                 <div class="info-label">Lieu:</div>
                 <div><?= htmlspecialchars($consultation['lieuc']) ?></div>
@@ -257,19 +258,19 @@ try {
             <h2>Informations sur le propriétaire</h2>
             <div class="info-grid">
                 <div class="info-label">ID Propriétaire:</div>
-                <div><?= htmlspecialchars($animal_proprietaire['idpropriÃ©taire']) ?></div>
+                <div><?= htmlspecialchars($animal_proprietaire['idproprietaire']) ?></div>
                 
                 <div class="info-label">Nom:</div>
                 <div><?= htmlspecialchars($animal_proprietaire['nomp']) ?></div>
                 
                 <div class="info-label">Prénom:</div>
-                <div><?= htmlspecialchars($animal_proprietaire['prÃ©nomp']) ?></div>
+                <div><?= htmlspecialchars($animal_proprietaire['prenomp']) ?></div>
                 
                 <div class="info-label">Adresse:</div>
                 <div><?= htmlspecialchars($animal_proprietaire['adressep'] ?? 'Non spécifiée') ?></div>
                 
                 <div class="info-label">Téléphone:</div>
-                <div><?= htmlspecialchars($animal_proprietaire['tÃ©lp'] ?? 'Non spécifié') ?></div>
+                <div><?= htmlspecialchars($animal_proprietaire['telp'] ?? 'Non spécifié') ?></div>
                 
                 <div class="info-label">Type:</div>
                 <div><?= htmlspecialchars($animal_proprietaire['type']) ?></div>
@@ -305,7 +306,7 @@ try {
                     <tr>
                         <td><?= htmlspecialchars($manipulation['codemanipulation']) ?></td>
                         <td><?= htmlspecialchars($manipulation['description']) ?></td>
-                        <td><?= htmlspecialchars($manipulation['durÃ©e_estimÃ©e']) ?> minutes</td>
+                        <td><?= htmlspecialchars($manipulation['duree_estimee']) ?> minutes</td>
                         <td><?= htmlspecialchars($manipulation['tarif_base']) ?> €</td>
                     </tr>
                     <?php endforeach; ?>
