@@ -1,10 +1,12 @@
+<?php include 'sidebar.php'; ?>
+<div style="margin-left: 220px; padding: 20px;">
 <?php
 // Configuration de la base de données
 class DatabaseConfig {
     private $host = 'localhost';
     private $dbname = 'saebdd';
     private $username = 'postgres';
-    private $password = '2606';
+    private $password = '1307';
     private $pdo;
 
     public function __construct() {

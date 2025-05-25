@@ -1,9 +1,11 @@
+<?php include 'sidebar.php'; ?>
+<div style="margin-left: 220px; padding: 20px;">
 <?php
 // Configuration de la base de données
 $host = 'localhost';
 $dbname = 'saebdd';
 $username = 'postgres';
-$password = '2606';
+$password = '1307';
 
 $message = '';
 $messageType = '';

@@ -1,10 +1,12 @@
+<?php include 'sidebar.php'; ?>
+<div style="margin-left: 220px; padding: 20px;">
 <?php
 session_start(); // TODO: Changer toutes les connection a la bdd par require_once 'connexion.php';
 
 $host = 'localhost';
 $dbname = 'saebdd';
 $user = 'postgres';
-$password = '2606';
+$password = '1307';
 
 // Vérification de la connexion de l'utilisateur
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {

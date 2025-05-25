@@ -1,3 +1,5 @@
+<?php include 'sidebar.php'; ?>
+<div style="margin-left: 220px; padding: 20px;">
 <!DOCTYPE html>
 <html lang="fr">
 <head>
