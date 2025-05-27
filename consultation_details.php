@@ -233,7 +233,7 @@ try {
                 <div><?= htmlspecialchars($animal_proprietaire['noma']) ?></div>
                 
                 <div class="info-label">Espèce:</div>
-                <div><?= htmlspecialchars($animal_proprietaire['espÃ¨cea']) ?></div>
+                <div><?= htmlspecialchars($animal_proprietaire['especea']) ?></div>
                 
                 <div class="info-label">Race:</div>
                 <div><?= htmlspecialchars($animal_proprietaire['racea'] ?? 'Non spécifiée') ?></div>

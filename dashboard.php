@@ -48,7 +48,7 @@ if ($user_role === 'client') {
             // Insérer dans la table consultation
             $stmt = $pdo->prepare("
                 INSERT INTO public.consultation 
-                (idconsultation, typec, datec, heurec, \"durÃ©ec\", diagnostic, motif, lieuc, tarif) 
+                (idconsultation, typec, datec, heurec, \"dureec\", diagnostic, motif, lieuc, tarif) 
                 VALUES (:idconsultation, :typec, :datec, :heurec, :dureec, NULL, :motif, :lieuc, 0.00)
             ");
             
@@ -87,9 +87,9 @@ if ($user_role === 'client') {
     // Récupération des animaux pour le formulaire
     try {
         $stmt = $pdo->prepare("
-            SELECT a.idanimal, a.noma, a.\"espÃ¨cea\", a.racea
+            SELECT a.idanimal, a.noma, a.\"especea\", a.racea
             FROM public.animal a
-            JOIN public.\"propriÃ©taire\" p ON a.\"idpropriÃ©taire\" = p.\"idpropriÃ©taire\"
+            JOIN public.\"proprietaire\" p ON a.\"idproprietaire\" = p.\"idproprietaire\"
             JOIN public.utilisateurs u ON LOWER(p.nomp) = LOWER(u.nom)
             WHERE u.id = :user_id
         ");
@@ -185,11 +185,11 @@ if ($user_role === 'client') {
     // Récupération des consultations pour l'admin
     try {
         $stmt = $pdo->prepare("
-            SELECT c.*, a.noma, a.\"espÃ¨cea\", p.nomp as proprietaire
+            SELECT c.*, a.noma, a.\"especea\", p.nomp as proprietaire
             FROM public.consultation c
             LEFT JOIN public.consulter con ON c.idconsultation = con.idconsultation
             LEFT JOIN public.animal a ON con.idanimal = a.idanimal
-            LEFT JOIN public.\"propriÃ©taire\" p ON a.\"idpropriÃ©taire\" = p.\"idpropriÃ©taire\"
+            LEFT JOIN public.\"proprietaire\" p ON a.\"idproprietaire\" = p.\"idproprietaire\"
             ORDER BY c.datec DESC, c.heurec DESC
         ");
         $stmt->execute();
@@ -354,7 +354,7 @@ if ($user_role === 'client') {
                             <?php foreach ($animals as $animal): ?>
                                 <option value="<?= htmlspecialchars($animal['idanimal']) ?>">
                                     <?= htmlspecialchars($animal['noma']) ?> 
-                                    (<?= htmlspecialchars($animal['espÃ¨cea']) ?> - 
+                                    (<?= htmlspecialchars($animal['especea']) ?> - 
                                     <?= htmlspecialchars($animal['racea'] ?? 'Non spécifié') ?>)
                                 </option>
                             <?php endforeach; ?>
@@ -365,8 +365,8 @@ if ($user_role === 'client') {
                         <label for="typec">Type de consultation</label>
                         <select id="typec" name="typec" required>
                             <option value="Basique">Basique</option>
-                            <option value="OstÃ©opathique">Ostéopathique</option>
-                            <option value="HomÃ©opathique">Homéopathique</option>
+                            <option value="Osteopathique">Ostéopathique</option>
+                            <option value="Homeopathique">Homéopathique</option>
                         </select>
                     </div>
                     
@@ -454,7 +454,7 @@ if ($user_role === 'client') {
                         <form method="post" action="" onsubmit="return confirm('Êtes-vous sûr de vouloir accepter cette consultation?');">
                             <input type="hidden" name="idconsultation" value="<?= htmlspecialchars($consultation['idconsultation']) ?>">
                             <input type="hidden" name="diagnostic" value="Accepté par administrateur">
-                            <input type="hidden" name="tarif" value="<?= $consultation['typec'] === 'Basique' ? '15.00' : ($consultation['typec'] === 'OstÃ©opathique' ? '70.00' : '40.00') ?>">
+                            <input type="hidden" name="tarif" value="<?= $consultation['typec'] === 'Basique' ? '15.00' : ($consultation['typec'] === 'Osteopathique' ? '70.00' : '40.00') ?>">
                             <button type="submit" name="accept_consultation" class="button-accept">Accepter</button>
                         </form>
                     <?php endif; ?>
