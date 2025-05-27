@@ -5,7 +5,7 @@ session_start();
 $host = 'localhost';
 $dbname = 'saebdd';
 $user = 'postgres';
-$password = '1307';
+$password = '2606';
 
 // Vérification de la connexion de l'utilisateur
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {

@@ -27,7 +27,7 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.animal (
     idanimal character varying(50) NOT NULL,
-    "espÃ¨cea" character varying(50) NOT NULL,
+    "especea" character varying(50) NOT NULL,
     noma character varying(50) NOT NULL,
     racea character varying(50),
     taille numeric(15,2),
@@ -35,7 +35,7 @@ CREATE TABLE public.animal (
     poids numeric(15,2),
     castration boolean,
     date_de_naissance date,
-    "idpropriÃ©taire" character varying(50) NOT NULL
+    "idproprietaire" character varying(50) NOT NULL
 );
 
 
@@ -50,13 +50,13 @@ CREATE TABLE public.consultation (
     typec character varying(50) NOT NULL,
     datec date NOT NULL,
     heurec time without time zone NOT NULL,
-    "durÃ©ec" integer,
+    "dureec" integer,
     diagnostic text,
     motif text,
     lieuc character varying(50) NOT NULL,
     tarif numeric(15,2) NOT NULL,
     CONSTRAINT ck_lieuc CHECK (((lieuc)::text = ANY (ARRAY[('Cabinet'::character varying)::text, ('Hors Cabinet'::character varying)::text]))),
-    CONSTRAINT ck_typec CHECK (((typec)::text = ANY (ARRAY[('Basique'::character varying)::text, ('OstÃ©opathique'::character varying)::text, ('HomÃ©opathique'::character varying)::text])))
+    CONSTRAINT ck_typec CHECK (((typec)::text = ANY (ARRAY[('Basique'::character varying)::text, ('Osteopathique'::character varying)::text, ('Homeopathique'::character varying)::text])))
 );
 
 
@@ -95,7 +95,7 @@ ALTER TABLE public.historique OWNER TO postgres;
 CREATE TABLE public.manipulation (
     codemanipulation character varying(8) NOT NULL,
     description character varying(150) NOT NULL,
-    "durÃ©e_estimÃ©e" integer NOT NULL,
+    "duree_estimee" integer NOT NULL,
     tarif_base numeric(10,2) NOT NULL
 );
 
@@ -123,15 +123,15 @@ CREATE TABLE public.proprietaire (
 ALTER TABLE public.proprietaire OWNER TO postgres;
 
 --
--- Name: propriÃ©taire; Type: TABLE; Schema: public; Owner: postgres
+-- Name: proprietaire; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."propriÃ©taire" (
-    "idpropriÃ©taire" character varying(50) NOT NULL,
+CREATE TABLE public."proprietaire" (
+    "idproprietaire" character varying(50) NOT NULL,
     nomp character varying(25) NOT NULL,
-    "prÃ©nomp" character varying(50) NOT NULL,
+    "prenomp" character varying(50) NOT NULL,
     adressep character varying(50),
-    "tÃ©lp" character varying(15),
+    "telp" character varying(15),
     iban character varying(34),
     site_web character varying(50),
     type character varying(50) NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE public."propriÃ©taire" (
 );
 
 
-ALTER TABLE public."propriÃ©taire" OWNER TO postgres;
+ALTER TABLE public."proprietaire" OWNER TO postgres;
 
 --
 -- Name: soigner; Type: TABLE; Schema: public; Owner: postgres
@@ -202,7 +202,7 @@ ALTER TABLE ONLY public.utilisateurs ALTER COLUMN id SET DEFAULT nextval('public
 -- Data for Name: animal; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.animal (idanimal, "espÃ¨cea", noma, racea, taille, genre, poids, castration, date_de_naissance, "idpropriÃ©taire") FROM stdin;
+COPY public.animal (idanimal, "especea", noma, racea, taille, genre, poids, castration, date_de_naissance, "idproprietaire") FROM stdin;
 A001	Chien	Rex	Labrador	60.50	MÃ¢le	30.20	t	2018-06-12	P001
 A002	Chat	Misty	Siamois	30.20	Femelle	4.50	f	2020-03-08	P003
 A003	Cheval	Eclair	Pur-Sang	165.00	MÃ¢le	500.00	f	2015-05-21	P002
@@ -213,9 +213,9 @@ A003	Cheval	Eclair	Pur-Sang	165.00	MÃ¢le	500.00	f	2015-05-21	P002
 -- Data for Name: consultation; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.consultation (idconsultation, typec, datec, heurec, "durÃ©ec", diagnostic, motif, lieuc, tarif) FROM stdin;
-C001	Basique	2024-01-10	10:30:00	30	ProblÃ¨me digestif	Consultation de routine	Cabinet	15.00
-C002	OstÃ©opathique	2024-12-15	15:00:00	60	Boiterie arriÃ¨re gauche	Chute rÃ©cente	Hors Cabinet	70.00
+COPY public.consultation (idconsultation, typec, datec, heurec, "dureec", diagnostic, motif, lieuc, tarif) FROM stdin;
+C001	Basique	2024-01-10	10:30:00	30	Probleme digestif	Consultation de routine	Cabinet	15.00
+C002	Osteopathique	2024-12-15	15:00:00	60	Boiterie arriere gauche	Chute recente	Hors Cabinet	70.00
 C522	Basique	2025-04-12	11:20:00	30	Accepté par administrateur	fish	Cabinet	15.00
 \.
 
@@ -244,7 +244,7 @@ C002	C001
 -- Data for Name: manipulation; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.manipulation (codemanipulation, description, "durÃ©e_estimÃ©e", tarif_base) FROM stdin;
+COPY public.manipulation (codemanipulation, description, "duree_estimee", tarif_base) FROM stdin;
 M001	Manipulation lombaire	20	25.00
 M002	Manipulation cervicale	15	20.00
 M003	Manipulation thoracique	30	30.00
@@ -257,14 +257,15 @@ M003	Manipulation thoracique	30	30.00
 
 COPY public.proprietaire (idproprietaire, nomp, prenomp, adressep, telp, iban, site_web, type, user_id) FROM stdin;
 P574	Boukayouh	Yanis	1 Rue Henri Vercken	0766362667	\N	\N	Particulier	\N
+P644	Boukayouh	Yanis	1 Rue Henri Vercken 78400 Chatou	\N	\N	\N	Particulier	\N
 \.
 
 
 --
--- Data for Name: propriÃ©taire; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: proprietaire; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."propriÃ©taire" ("idpropriÃ©taire", nomp, "prÃ©nomp", adressep, "tÃ©lp", iban, site_web, type) FROM stdin;
+COPY public."proprietaire" ("idproprietaire", nomp, "prenomp", adressep, "telp", iban, site_web, type) FROM stdin;
 P001	Dupont	Marie	12 rue des Lilas, Paris	0612345678	FR7630004015870002601171220	\N	Particulier
 P002	Durand	Jean	15 avenue des Champs, Lyon	0623456789	FR7630004015870002601171230	https://www.ecuriedurand.com	Professionnel
 P003	Martin	Sophie	8 boulevard Haussmann, Marseille	0634567890	\N	\N	Particulier
@@ -287,10 +288,7 @@ C002	M003
 
 COPY public.utilisateurs (id, nom, email, mot_de_passe, role) FROM stdin;
 1	tayoken	contact@tayoken.xyz	2606	admin
-2	Jean Durjardin	JeanDJ@gmail.com	1234	client
-3	Jean	Jeanjean	1234	client
-4	Dupont	jedihd@fdidf.fr	124	client
-5	Boukayouh Yanis	deughfei@euhgfuyic.com	$2y$10$Y095bpKtp9GOmFAQJeUileHoWyajxSTeGPvqTL7aPk7WpF8n16g32	client
+7	Boukayouh	yanisboukayouh@gmail.com	1234	client
 \.
 
 
@@ -298,7 +296,7 @@ COPY public.utilisateurs (id, nom, email, mot_de_passe, role) FROM stdin;
 -- Name: utilisateurs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.utilisateurs_id_seq', 5, true);
+SELECT pg_catalog.setval('public.utilisateurs_id_seq', 7, true);
 
 
 --
@@ -350,11 +348,11 @@ ALTER TABLE ONLY public.proprietaire
 
 
 --
--- Name: propriÃ©taire propriÃ©taire_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: proprietaire proprietaire_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."propriÃ©taire"
-    ADD CONSTRAINT "propriÃ©taire_pkey" PRIMARY KEY ("idpropriÃ©taire");
+ALTER TABLE ONLY public."proprietaire"
+    ADD CONSTRAINT "proprietaire_pkey" PRIMARY KEY ("idproprietaire");
 
 
 --
@@ -386,7 +384,7 @@ ALTER TABLE ONLY public.utilisateurs
 --
 
 ALTER TABLE ONLY public.animal
-    ADD CONSTRAINT fk_animal_proprietaire FOREIGN KEY ("idpropriÃ©taire") REFERENCES public."propriÃ©taire"("idpropriÃ©taire");
+    ADD CONSTRAINT fk_animal_proprietaire FOREIGN KEY ("idproprietaire") REFERENCES public."proprietaire"("idproprietaire");
 
 
 --

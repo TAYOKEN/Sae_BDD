@@ -6,7 +6,7 @@ class DatabaseConfig {
     private $host = 'localhost';
     private $dbname = 'saebdd';
     private $username = 'postgres';
-    private $password = '1307';
+    private $password = '2606';
     private $pdo;
 
     public function __construct() {
@@ -45,8 +45,6 @@ class UserManager {
                 return ['success' => false, 'message' => 'Cet email est déjà utilisé.'];
             }
 
-            // Hacher le mot de passe
-            $hashedPassword = password_hash($mot_de_passe, PASSWORD_DEFAULT);
 
             // Insérer le nouvel utilisateur
             $stmt = $this->db->prepare("
@@ -54,7 +52,7 @@ class UserManager {
                 VALUES (?, ?, ?, ?)
             ");
             
-            $stmt->execute([$nom, $email, $hashedPassword, $role]);
+            $stmt->execute([$nom, $email, $mot_de_passe, $role]);
             
             return ['success' => true, 'message' => 'Utilisateur créé avec succès !'];
             

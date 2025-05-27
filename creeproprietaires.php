@@ -5,7 +5,7 @@
 $host = 'localhost';
 $dbname = 'saebdd';
 $username = 'postgres';
-$password = '1307';
+$password = '2606';
 
 $message = '';
 $messageType = '';

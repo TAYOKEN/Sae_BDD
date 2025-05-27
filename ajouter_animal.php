@@ -2,7 +2,7 @@
 session_start();
 require_once 'connexion.php';
 
-// Vérifier si l'utilisateur est connecté et est client
+// Verifier si l'utilisateur est connecte et est client
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['user_role'] !== 'client') {
     header('Location: login.php');
     exit;
@@ -24,12 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date_de_naissance = $_POST['date_de_naissance'] ?? null;
 
     if (empty($noma) || empty($especea) || empty($genre)) {
-        $error = "Les champs Nom, Espèce et Genre sont obligatoires.";
+        $error = "Les champs Nom, Espece et Genre sont obligatoires.";
     } else {
         try {
             $pdo = getDBConnection();
 
-            // Récupérer l'idpropriétaire lié à l'utilisateur
+            // Recuperer l'idproprietaire lie à l'utilisateur
             $stmt = $pdo->prepare('SELECT p."idproprietaire" FROM public."proprietaire" p JOIN public.utilisateurs u ON LOWER(p.nomp) = LOWER(u.nom) WHERE u.id = :user_id');
             $stmt->bindParam(':user_id', $user_id);
             $stmt->execute();
@@ -37,10 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($proprietaire) {
                 $idproprietaire = $proprietaire['idproprietaire'];
-                // Générer un nouvel ID animal unique (ex: A123)
+                // Generer un nouvel ID animal unique (ex: A123)
                 $idanimal = 'A' . rand(100, 999);
 
-                $stmt = $pdo->prepare('INSERT INTO public.animal (idanimal, "espècea", noma, racea, taille, genre, poids, castration, date_de_naissance, "idpropriétaire") VALUES (:idanimal, :especea, :noma, :racea, :taille, :genre, :poids, :castration, :date_de_naissance, :idproprietaire)');
+                $stmt = $pdo->prepare('INSERT INTO public.animal (idanimal, "especea", noma, racea, taille, genre, poids, castration, date_de_naissance, "idproprietaire") VALUES (:idanimal, :especea, :noma, :racea, :taille, :genre, :poids, :castration, :date_de_naissance, :idproprietaire)');
                 $stmt->bindParam(':idanimal', $idanimal);
                 $stmt->bindParam(':especea', $especea);
                 $stmt->bindParam(':noma', $noma);
@@ -53,9 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bindParam(':idproprietaire', $idproprietaire);
                 $stmt->execute();
 
-                $success = "Animal ajouté avec succès !";
+                $success = "Animal ajoute avec succes !";
             } else {
-                $error = "Impossible de trouver votre profil propriétaire.";
+                $error = "Impossible de trouver votre profil proprietaire.";
             }
         } catch (PDOException $e) {
             $error = "Erreur lors de l'ajout de l'animal : " . $e->getMessage();
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" id="noma" name="noma" required>
             </div>
             <div class="form-group">
-                <label for="especea">Espèce *</label>
+                <label for="especea">Espece *</label>
                 <input type="text" id="especea" name="especea" required>
             </div>
             <div class="form-group">
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-group">
                 <label for="genre">Genre *</label>
                 <select id="genre" name="genre" required>
-                    <option value="">Sélectionnez</option>
+                    <option value="">Selectionnez</option>
                     <option value="Mâle">Mâle</option>
                     <option value="Femelle">Femelle</option>
                 </select>
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="number" id="poids" name="poids" step="0.01">
             </div>
             <div class="form-group">
-                <label for="castration">Castré ?</label>
+                <label for="castration">Castre ?</label>
                 <select id="castration" name="castration">
                     <option value="t">Oui</option>
                     <option value="f">Non</option>
